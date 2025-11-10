@@ -1,0 +1,13 @@
+#include <stdio.h>
+
+int main(){
+
+    int n1, n2, n3;
+
+    scanf("%d %d %d",&n1,&n2,&n3);
+
+    if(n1>= n2+n3)printf("%d e maior igual a %d", n1, n2+n3);
+    else printf("%d nao e maior igual a %d",n1, n2+n3);
+
+    return 0;
+}
