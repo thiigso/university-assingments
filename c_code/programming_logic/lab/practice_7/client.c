@@ -1,107 +1,109 @@
 #include <stdio.h>
 #include <string.h>
 
-#define MAX_CLIENTES 100
+#define MAX 3
+
+int structQtd = 0;
 
 typedef struct {
-    char cpf[20];
-    char nome[100];
-    char telefone[30];
+    int cpf;
+    int telefone;
+    char nome[50];
     int idade;
-} Cliente;
+}pessoa;
 
-void limpar_buffer() {
-    int c;
-    while ((c = getchar()) != '\n' && c != EOF) {}
+
+void clearBuffer(){
+    int ch;
+    while ((ch = getchar()) != '\n' && ch != EOF);
 }
 
-int incluir(Cliente clientes[], int n) {
-    if (n >= MAX_CLIENTES) {
-        printf("Limite de clientes atingido.\n");
-        return n;
-    }
 
-    printf("CPF: ");
-    fgets(clientes[n].cpf, 20, stdin);
-    clientes[n].cpf[strcspn(clientes[n].cpf, "\n")] = '\0';
+void addClient(pessoa vector[]){
 
-    printf("Nome: ");
-    fgets(clientes[n].nome, 100, stdin);
-    clientes[n].nome[strcspn(clientes[n].nome, "\n")] = '\0';
-
-    printf("Telefone: ");
-    fgets(clientes[n].telefone, 30, stdin);
-    clientes[n].telefone[strcspn(clientes[n].telefone, "\n")] = '\0';
-
-    printf("Idade: ");
-    scanf("%d", &clientes[n].idade);
-    limpar_buffer();
-
-    return n + 1;
-}
-
-void listar(Cliente clientes[], int n) {
-    if (n == 0) {
-        printf("Nenhum cliente cadastrado.\n");
+    if(structQtd >= MAX){
+        printf("A lista ja esta cheia, nao e possivel adicionar mais clientes\n");
         return;
     }
+    else{
 
-    for (int i = 0; i < n; i++) {
-        printf("\nCliente %d\n", i + 1);
-        printf("CPF: %s\n", clientes[i].cpf);
-        printf("Nome: %s\n", clientes[i].nome);
-        printf("Telefone: %s\n", clientes[i].telefone);
-        printf("Idade: %d\n", clientes[i].idade);
+    clearBuffer();
+    printf("Digite o nome da pessoa: ");
+    fgets(vector[structQtd].nome, sizeof(vector[structQtd].nome),stdin);
+    vector[structQtd].nome[strcspn(vector[structQtd].nome,"\n")] = 0;
+    printf("Digite o numero de cpf: ");
+    scanf("%d",&vector[structQtd].cpf); 
+    printf("Digite o numero de telefone da pessoa: ");
+    scanf("%d",&vector[structQtd].telefone);
+    printf("Digite a idade da pessoa: ");
+    scanf("%d",&vector[structQtd].idade); 
+
+    structQtd++;
+        
     }
 }
 
-void pesquisar(Cliente clientes[], int n) {
-    char busca[100];
+void listClient(pessoa vector[]){
 
-    printf("Digite o nome para buscar: ");
-    fgets(busca, 100, stdin);
-    busca[strcspn(busca, "\n")] = '\0';
+    for(int i=0; i<structQtd; i++){
+        printf("Pessoa %d\nNome: %s\nCPF: %d\nNumero: %d\nIdade: %d\n\n",i+1, vector[i].nome, vector[i].cpf, vector[i].telefone, vector[i].idade);
+    }
 
-    int encontrou = 0;
+}
 
-    for (int i = 0; i < n; i++) {
-        if (strcmp(clientes[i].nome, busca) == 0) {
-            printf("\nCliente %d\n", i + 1);
-            printf("CPF: %s\n", clientes[i].cpf);
-            printf("Nome: %s\n", clientes[i].nome);
-            printf("Telefone: %s\n", clientes[i].telefone);
-            printf("Idade: %d\n", clientes[i].idade);
-            encontrou = 1;
+void searchCient(pessoa vector[]){
+    int searchQtd = 0;
+    char nomeTemp[50];
+    
+    printf("Digite o nome a ser procurado na lista: ");
+    clearBuffer();
+    fgets(nomeTemp, sizeof(nomeTemp),stdin);
+    nomeTemp[strcspn(nomeTemp, "\n")] = 0;
+
+    for(int i=0; i<structQtd; i++){
+
+        if(!strcmp(nomeTemp, vector[i].nome)){
+            printf("Pessoa %d\nNome: %s\nCPF: %d\nNumero: %d\nIdade: %d\n\n",i+1, vector[i].nome, vector[i].cpf, vector[i].telefone, vector[i].idade);
+            searchQtd++;
         }
     }
 
-    if (!encontrou)
-        printf("Cliente nao encontrado.\n");
+    if(searchQtd == 0) printf("\nO nome descrito nao foi encontrado na lista.\n");
+
 }
 
-int main() {
-    Cliente clientes[MAX_CLIENTES];
-    int total = 0, opcao;
 
-    do {
-        printf("\n1 - Incluir cliente");
-        printf("\n2 - Listar clientes");
-        printf("\n3 - Pesquisar cliente por nome");
-        printf("\n0 - Sair");
-        printf("\nOpcao: ");
-        scanf("%d", &opcao);
-        limpar_buffer();
+int main(){
 
-        if (opcao == 1)
-            total = incluir(clientes, total);
-        else if (opcao == 2)
-            listar(clientes, total);
-        else if (opcao == 3)
-            pesquisar(clientes, total);
-        else if (opcao != 0)
-            printf("Opcao invalida.\n");
+pessoa Clientes[MAX];
+int select;
 
-    } while (opcao != 0);
 
-    return 0;
+do{
+    printf("\nO que voce deseja fazer?\n1- Incluir cliente.\n2- Listar cliente.\n3-Pesquisar cliente por nome.\n4- Sair do menu.\n\n");
+    scanf("%d",&select);
+    
+switch(select){
+    case 1:
+    addClient(Clientes);
+    break;
+    case 2:
+    listClient(Clientes);
+    break;
+    case 3:
+    searchCient(Clientes);
+    break;
+    case 4:
+    break;
+    default:
+    printf("Digite um comando valido.");
+    break;
+
+
+}
+
+
+
+}while(select != 4);
+
 }
