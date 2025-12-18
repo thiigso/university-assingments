@@ -32,7 +32,6 @@ void AddSongs(playlist vector[]){
         printf("A lista ja esta cheia, nao e possivel adicionar mais musicas\n");
         return;
     }
-    else{
 
     printf("Digite o nome da musica: ");
     fgets(song_name_temp, sizeof(song_name_temp),stdin);
@@ -50,7 +49,7 @@ void AddSongs(playlist vector[]){
 
     for(int i=0; i<structQtd; i++){
         if(!strcmp(song_name_temp, vector[i].song_name) && !strcmp(artist_name_temp, vector[i].artist_name)){
-            printf("Essa musica ja existe na playlist, por favor escolha outra.");
+            printf("\nEssa musica ja existe na playlist, por favor adicione outra.\n\n");
             return;
         }
     }
@@ -62,39 +61,75 @@ void AddSongs(playlist vector[]){
 
     structQtd++;
         
-    }
 }
 
 void ListSongs(playlist vector[]){
 
+    if(structQtd == 0) printf("\nAinda nao ha nenhuma musica adicionada na playlist. Retornando ao menu...\n\n");
+
     for(int i=0; i<structQtd; i++){
         printf("Musica: %d\nNome: %s\nArtista: %s\nAno: %d\nDuracao: %d\n\n",i+1, vector[i].song_name, vector[i].artist_name, vector[i].launch_year, vector[i].duration);
     }
 
 }
 
-int SearchSongs(playlist vector[]){
+void SearchSongs(playlist vector[]){
     int searchQtd = 0;
-    char nomeTemp[50];
+    char nameTemp[CHAR];
     
     printf("Digite a musica a ser procurado na lista: ");
-    fgets(nomeTemp, sizeof(nomeTemp),stdin);
-    StripNewLine(nomeTemp);
+    fgets(nameTemp, sizeof(nameTemp),stdin);
+    StripNewLine(nameTemp);
 
     for(int i=0; i<structQtd; i++){
-
-        if(!strcmp(nomeTemp, vector[i].song_name)){
-        printf("Musica: %d\nNome: %s\nArtista: %s\nAno: %d\nDuracao: %d\n\n",i+1, vector[i].song_name, vector[i].artist_name, vector[i].launch_year, vector[i].duration);
+        if(!strcmp(nameTemp, vector[i].song_name)){
+            printf("Musica: %d\nNome: %s\nArtista: %s\nAno: %d\nDuracao: %d\n\n",i+1, vector[i].song_name, vector[i].artist_name, vector[i].launch_year, vector[i].duration);
             searchQtd++;
         }
     }
 
-    if(searchQtd == 0) printf("\nA musica descrita nao foi encontrado na lista.\n");
+    if(searchQtd == 0) printf("\nA musica descrita nao foi encontrado na lista. Retornando ao menu...\n");
+
+}
+
+void AlterSong(playlist vector[]){
+
+    int searchQtd = 0, indexTemp=0;
+    char nameTemp[CHAR], artistTemp[CHAR];
+    
+    printf("Digite a musica a ser procurado na lista: ");
+    fgets(nameTemp, sizeof(nameTemp),stdin);
+    StripNewLine(nameTemp);
+    printf("Digite o artista a ser procurado na lista: ");
+    fgets(artistTemp, sizeof(artistTemp),stdin);
+    StripNewLine(artistTemp);
+
+    for(int i=0; i<structQtd; i++){
+        if(!strcmp(nameTemp, vector[i].song_name) && !strcmp(artistTemp, vector[i].artist_name)){
+            printf("\n\nMusica encontrada:\n\nMusica: %d\nNome: %s\nArtista: %s\nAno: %d\nDuracao: %d\n\n",i+1, vector[i].song_name, vector[i].artist_name, vector[i].launch_year, vector[i].duration);
+            indexTemp = i;
+            searchQtd++;
+            break;
+        }
+    }
+
+
+    if(searchQtd == 0) printf("\nA musica descrita nao foi encontrado na lista. Retornando ao menu...\n");
+    else{
+        printf("\nInforme os novos dados:\n\n");
+
+        printf("Digite o ano de lancamento: ");
+        scanf("%d",&vector[indexTemp].launch_year); 
+        ClearBuffer();
+        printf("Digite a duracao da musica: ");
+        scanf("%d",&vector[indexTemp].duration);
+        ClearBuffer();
+
+    }
 
 }
 
 void DeleteSong(playlist vector[]){
-
 
 }
 
@@ -106,7 +141,7 @@ int select;
 
 
 do{
-    printf("\nO que voce deseja fazer?\n1- Incluir musica.\n2- Listar musica.\n3- Pesquisar musica por nome.\n4- Sair do menu.\n\n");
+    printf("\nO que voce deseja fazer?\n1- Incluir musica.\n2- Listar musica.\n3- Pesquisar musica por nome.\n4- Alterar musica\n5- Deletar musica\n6- Sair do menu.\n\n");
     scanf("%d",&select);
     ClearBuffer();
     
@@ -121,6 +156,12 @@ switch(select){
     SearchSongs(myPlaylist);
     break;
     case 4:
+    AlterSong(myPlaylist);
+    break;
+    case 5:
+    DeleteSong(myPlaylist);
+    break;
+    case 6:
     break;
     default:
     printf("Digite um comando valido.");
@@ -131,6 +172,8 @@ switch(select){
 
 
 
-}while(select != 4);
+}while(select != 6);
+
+return 0;
 
 }
