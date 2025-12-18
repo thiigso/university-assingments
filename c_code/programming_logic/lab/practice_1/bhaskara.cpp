@@ -19,7 +19,7 @@ int main(){
         printf("Tem 2 raizes reais: \n1.%f\n2.%f", r1,r2);
 
     }
-    else printf("Não existe raiz real.")
+    else printf("Não existe raiz real.");
 
     return 0;
 }
