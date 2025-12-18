@@ -1,0 +1,16 @@
+1-a) x: 20
+&x: endereço de x
+p: endereco de x
+*p: 20
+&p: endereco de p
+q: endereco de p
+*q: endereco de x
+**q: 20
+
+b) f: 6.000
+*p: 6.000
+*q: 6.000
+
+c)Exclui os espaços de uma string
+
+d)Deixa os maiores valores no c depois em b depois em a, e retorna a soma de todos.
