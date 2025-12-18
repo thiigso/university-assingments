@@ -131,6 +131,45 @@ void AlterSong(playlist vector[]){
 
 void DeleteSong(playlist vector[]){
 
+    int searchQtd = 0, indexTemp=0;
+    char answer, nameTemp[CHAR], artistTemp[CHAR];
+    
+    printf("Digite a musica a ser procurado na lista: ");
+    fgets(nameTemp, sizeof(nameTemp),stdin);
+    StripNewLine(nameTemp);
+    printf("Digite o artista a ser procurado na lista: ");
+    fgets(artistTemp, sizeof(artistTemp),stdin);
+    StripNewLine(artistTemp);
+
+    for(int i=0; i<structQtd; i++){
+        if(!strcmp(nameTemp, vector[i].song_name) && !strcmp(artistTemp, vector[i].artist_name)){
+            printf("\n\nMusica encontrada:\n\nMusica: %d\nNome: %s\nArtista: %s\nAno: %d\nDuracao: %d\n\n",i+1, vector[i].song_name, vector[i].artist_name, vector[i].launch_year, vector[i].duration);
+            indexTemp = i;
+            searchQtd++;
+            break;
+        }
+    }
+
+
+    if(searchQtd == 0) printf("\nA musica descrita nao foi encontrado na lista. Retornando ao menu...\n");
+    else{
+        printf("\nTem certeza que deseja excluir essa musica? s/n\n\n");
+
+        if((answer = getchar()) == 's' || answer == 'S'){
+
+            for(int i=indexTemp; i<structQtd-1; i++){
+                vector[i] = vector[i + 1];
+            }
+
+            structQtd--;
+            printf("\n\nMusica deletada com sucesso! Retornando ao menu...\n\n");
+
+        }
+        else printf("\nOk, retornando ao menu...\n\n");
+
+    }
+    
+
 }
 
 
