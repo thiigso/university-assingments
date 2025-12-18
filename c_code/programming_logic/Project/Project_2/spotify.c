@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#define MAX 3
+#define MAX 4
 #define CHAR 50
 
 int structQtd = 0;
@@ -83,7 +83,7 @@ void SearchSongs(playlist vector[]){
 
     for(int i=0; i<structQtd; i++){
         if(!strcmp(nameTemp, vector[i].song_name)){
-            printf("Musica: %d\nNome: %s\nArtista: %s\nAno: %d\nDuracao: %d\n\n",i+1, vector[i].song_name, vector[i].artist_name, vector[i].launch_year, vector[i].duration);
+            printf("\nMusica: %d\nNome: %s\nArtista: %s\nAno: %d\nDuracao: %d\n\n",i+1, vector[i].song_name, vector[i].artist_name, vector[i].launch_year, vector[i].duration);
             searchQtd++;
         }
     }
@@ -201,6 +201,7 @@ switch(select){
     DeleteSong(myPlaylist);
     break;
     case 6:
+    printf("\nO programa sera encerrado!");
     break;
     default:
     printf("Digite um comando valido.");
